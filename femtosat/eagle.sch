@@ -2103,6 +2103,8 @@ Adapted from SparkFun Libraries</description>
 <part name="P+6" library="femtosat" deviceset="3.3V" device=""/>
 <part name="TP1" library="femtosat" deviceset="TEST-POINT" device="3"/>
 <part name="TP2" library="femtosat" deviceset="TEST-POINT" device="3"/>
+<part name="C4" library="femtosat" deviceset="CAPACITOR_0.1UF" device="" value="0.1uF"/>
+<part name="C5" library="femtosat" deviceset="CAPACITOR_0.1UF" device="" value="0.1uF"/>
 </parts>
 <sheets>
 <sheet>
@@ -2245,6 +2247,14 @@ Adapted from SparkFun Libraries</description>
 <attribute name="NAME" x="162.56" y="137.16" size="1.778" layer="95" font="vector" rot="R90"/>
 <attribute name="VALUE" x="167.64" y="137.16" size="1.778" layer="96" font="vector" rot="R90"/>
 </instance>
+<instance part="C4" gate="G$1" x="20.32" y="43.18" smashed="yes" rot="R180">
+<attribute name="NAME" x="18.796" y="40.259" size="1.778" layer="95" font="vector" rot="R180"/>
+<attribute name="VALUE" x="18.796" y="45.339" size="1.778" layer="96" font="vector" rot="R180"/>
+</instance>
+<instance part="C5" gate="G$1" x="25.4" y="30.48" smashed="yes" rot="R180">
+<attribute name="NAME" x="23.876" y="27.559" size="1.778" layer="95" font="vector" rot="R180"/>
+<attribute name="VALUE" x="23.876" y="32.639" size="1.778" layer="96" font="vector" rot="R180"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -2343,14 +2353,35 @@ Adapted from SparkFun Libraries</description>
 <segment>
 <pinref part="U4" gate="G$1" pin="GND"/>
 <wire x1="40.64" y1="35.56" x2="30.48" y2="35.56" width="0.1524" layer="91"/>
-<wire x1="30.48" y1="35.56" x2="30.48" y2="20.32" width="0.1524" layer="91"/>
+<wire x1="30.48" y1="35.56" x2="30.48" y2="25.4" width="0.1524" layer="91"/>
 <pinref part="GND9" gate="1" pin="GND"/>
+<pinref part="C4" gate="G$1" pin="1"/>
+<wire x1="30.48" y1="25.4" x2="30.48" y2="20.32" width="0.1524" layer="91"/>
+<wire x1="20.32" y1="38.1" x2="20.32" y2="35.56" width="0.1524" layer="91"/>
+<wire x1="20.32" y1="35.56" x2="30.48" y2="35.56" width="0.1524" layer="91"/>
+<junction x="30.48" y="35.56"/>
+<pinref part="U4" gate="G$1" pin="AD0/SDO"/>
+<wire x1="76.2" y1="35.56" x2="81.28" y2="35.56" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="35.56" x2="81.28" y2="25.4" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="25.4" x2="30.48" y2="25.4" width="0.1524" layer="91"/>
+<junction x="30.48" y="25.4"/>
+<pinref part="C5" gate="G$1" pin="1"/>
+<wire x1="25.4" y1="25.4" x2="30.48" y2="25.4" width="0.1524" layer="91"/>
+<pinref part="U4" gate="G$1" pin="FSYNC"/>
+<wire x1="40.64" y1="40.64" x2="30.48" y2="40.64" width="0.1524" layer="91"/>
+<wire x1="30.48" y1="40.64" x2="30.48" y2="35.56" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U5" gate="U1" pin="GND"/>
 <wire x1="25.4" y1="91.44" x2="20.32" y2="91.44" width="0.1524" layer="91"/>
-<wire x1="20.32" y1="91.44" x2="20.32" y2="81.28" width="0.1524" layer="91"/>
+<wire x1="20.32" y1="91.44" x2="20.32" y2="83.82" width="0.1524" layer="91"/>
 <pinref part="GND10" gate="1" pin="GND"/>
+<pinref part="U5" gate="U1" pin="SDO/ADR"/>
+<wire x1="20.32" y1="83.82" x2="20.32" y2="81.28" width="0.1524" layer="91"/>
+<wire x1="53.34" y1="91.44" x2="58.42" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="58.42" y1="91.44" x2="58.42" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="58.42" y1="83.82" x2="20.32" y2="83.82" width="0.1524" layer="91"/>
+<junction x="20.32" y="83.82"/>
 </segment>
 </net>
 <net name="N$5" class="0">
@@ -2413,14 +2444,37 @@ Adapted from SparkFun Libraries</description>
 <segment>
 <pinref part="U4" gate="G$1" pin="VDD"/>
 <wire x1="40.64" y1="48.26" x2="30.48" y2="48.26" width="0.1524" layer="91"/>
-<wire x1="30.48" y1="48.26" x2="30.48" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="30.48" y1="48.26" x2="30.48" y2="55.88" width="0.1524" layer="91"/>
 <pinref part="P+4" gate="G$1" pin="3.3V"/>
+<pinref part="U4" gate="G$1" pin="VDDIO"/>
+<wire x1="30.48" y1="55.88" x2="30.48" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="40.64" y1="45.72" x2="30.48" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="30.48" y1="45.72" x2="30.48" y2="48.26" width="0.1524" layer="91"/>
+<junction x="30.48" y="48.26"/>
+<pinref part="C4" gate="G$1" pin="2"/>
+<wire x1="30.48" y1="48.26" x2="20.32" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="20.32" y1="48.26" x2="20.32" y2="45.72" width="0.1524" layer="91"/>
+<pinref part="U4" gate="G$1" pin="!CS"/>
+<wire x1="76.2" y1="43.18" x2="81.28" y2="43.18" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="43.18" x2="81.28" y2="55.88" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="55.88" x2="30.48" y2="55.88" width="0.1524" layer="91"/>
+<junction x="30.48" y="55.88"/>
 </segment>
 <segment>
 <pinref part="U5" gate="U1" pin="VDD"/>
 <wire x1="25.4" y1="104.14" x2="20.32" y2="104.14" width="0.1524" layer="91"/>
-<wire x1="20.32" y1="104.14" x2="20.32" y2="114.3" width="0.1524" layer="91"/>
+<wire x1="20.32" y1="104.14" x2="20.32" y2="109.22" width="0.1524" layer="91"/>
 <pinref part="P+5" gate="G$1" pin="3.3V"/>
+<pinref part="U5" gate="U1" pin="VDDIO"/>
+<wire x1="20.32" y1="109.22" x2="20.32" y2="114.3" width="0.1524" layer="91"/>
+<wire x1="25.4" y1="99.06" x2="20.32" y2="99.06" width="0.1524" layer="91"/>
+<wire x1="20.32" y1="99.06" x2="20.32" y2="104.14" width="0.1524" layer="91"/>
+<junction x="20.32" y="104.14"/>
+<pinref part="U5" gate="U1" pin="!CS"/>
+<wire x1="53.34" y1="104.14" x2="55.88" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="55.88" y1="104.14" x2="55.88" y2="109.22" width="0.1524" layer="91"/>
+<wire x1="55.88" y1="109.22" x2="20.32" y2="109.22" width="0.1524" layer="91"/>
+<junction x="20.32" y="109.22"/>
 </segment>
 <segment>
 <pinref part="R3" gate="G$1" pin="2"/>
@@ -2431,7 +2485,7 @@ Adapted from SparkFun Libraries</description>
 <pinref part="P+6" gate="G$1" pin="3.3V"/>
 </segment>
 </net>
-<net name="N$8" class="0">
+<net name="INT" class="0">
 <segment>
 <pinref part="U1" gate="U$1" pin="PD2(INT0)"/>
 <wire x1="154.94" y1="111.76" x2="165.1" y2="111.76" width="0.1524" layer="91"/>
@@ -2440,6 +2494,14 @@ Adapted from SparkFun Libraries</description>
 <wire x1="213.36" y1="101.6" x2="213.36" y2="96.52" width="0.1524" layer="91"/>
 <pinref part="U2" gate="G$1" pin="DIO0"/>
 <wire x1="213.36" y1="96.52" x2="208.28" y2="96.52" width="0.1524" layer="91"/>
+<wire x1="213.36" y1="101.6" x2="220.98" y2="101.6" width="0.1524" layer="91"/>
+<junction x="213.36" y="101.6"/>
+<label x="220.98" y="101.6" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U4" gate="G$1" pin="INT"/>
+<wire x1="40.64" y1="43.18" x2="33.02" y2="43.18" width="0.1524" layer="91"/>
+<label x="30.48" y="43.18" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$4" class="0">
@@ -2536,19 +2598,33 @@ Adapted from SparkFun Libraries</description>
 <label x="157.48" y="116.84" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$22" class="0">
+<net name="SDA" class="0">
 <segment>
 <pinref part="U1" gate="U$1" pin="PC4(ADC4/SDA)"/>
 <wire x1="154.94" y1="129.54" x2="165.1" y2="129.54" width="0.1524" layer="91"/>
-<wire x1="165.1" y1="129.54" x2="177.8" y2="129.54" width="0.1524" layer="91"/>
+<wire x1="165.1" y1="129.54" x2="172.72" y2="129.54" width="0.1524" layer="91"/>
+<wire x1="172.72" y1="129.54" x2="177.8" y2="129.54" width="0.1524" layer="91"/>
 <wire x1="177.8" y1="129.54" x2="177.8" y2="139.7" width="0.1524" layer="91"/>
 <pinref part="R3" gate="G$1" pin="1"/>
 <pinref part="TP2" gate="G$1" pin="1"/>
 <wire x1="165.1" y1="139.7" x2="165.1" y2="129.54" width="0.1524" layer="91"/>
 <junction x="165.1" y="129.54"/>
+<wire x1="172.72" y1="129.54" x2="172.72" y2="134.62" width="0.1524" layer="91"/>
+<junction x="172.72" y="129.54"/>
+<label x="172.72" y="134.62" size="1.778" layer="95" rot="R90"/>
+</segment>
+<segment>
+<pinref part="U4" gate="G$1" pin="SDA/SDI"/>
+<wire x1="76.2" y1="38.1" x2="86.36" y2="38.1" width="0.1524" layer="91"/>
+<label x="86.36" y="38.1" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U5" gate="U1" pin="SDI/SDA"/>
+<wire x1="53.34" y1="99.06" x2="58.42" y2="99.06" width="0.1524" layer="91"/>
+<label x="58.42" y="99.06" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$23" class="0">
+<net name="SCL" class="0">
 <segment>
 <pinref part="U1" gate="U$1" pin="PC5(ADC5/SCL)"/>
 <wire x1="154.94" y1="127" x2="187.96" y2="127" width="0.1524" layer="91"/>
@@ -2558,6 +2634,27 @@ Adapted from SparkFun Libraries</description>
 <pinref part="TP1" gate="G$1" pin="1"/>
 <wire x1="187.96" y1="134.62" x2="187.96" y2="127" width="0.1524" layer="91"/>
 <junction x="187.96" y="127"/>
+<wire x1="195.58" y1="127" x2="203.2" y2="127" width="0.1524" layer="91"/>
+<junction x="195.58" y="127"/>
+<label x="203.2" y="127" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U4" gate="G$1" pin="SCL/SCLK"/>
+<wire x1="76.2" y1="40.64" x2="86.36" y2="40.64" width="0.1524" layer="91"/>
+<label x="86.36" y="40.64" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="U5" gate="U1" pin="SCK/SCL"/>
+<wire x1="53.34" y1="96.52" x2="58.42" y2="96.52" width="0.1524" layer="91"/>
+<label x="58.42" y="96.52" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="N$18" class="0">
+<segment>
+<pinref part="U4" gate="G$1" pin="REGOUT"/>
+<wire x1="40.64" y1="38.1" x2="25.4" y2="38.1" width="0.1524" layer="91"/>
+<pinref part="C5" gate="G$1" pin="2"/>
+<wire x1="25.4" y1="38.1" x2="25.4" y2="33.02" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
