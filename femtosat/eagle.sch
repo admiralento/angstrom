@@ -1228,6 +1228,16 @@ Used as a test point connection for pogo pins or other debugging tools.
 <circle x="0" y="0" radius="0.381" width="0" layer="30"/>
 <pad name="P$1" x="0" y="0" drill="0.381" diameter="0.6096" stop="no"/>
 </package>
+<package name="MEM-HEADERS">
+<pad name="P$1" x="0" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
+<pad name="P$2" x="2.54" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
+<pad name="P$3" x="5.08" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
+<pad name="P$4" x="7.62" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
+<pad name="P$5" x="0" y="32.385" drill="1.016" diameter="1.8796" rot="R90"/>
+<pad name="P$6" x="2.54" y="32.385" drill="1.016" diameter="1.8796" rot="R90"/>
+<pad name="P$7" x="5.08" y="32.385" drill="1.016" diameter="1.8796" rot="R90"/>
+<pad name="P$8" x="7.62" y="32.385" drill="1.016" diameter="1.8796" rot="R90"/>
+</package>
 </packages>
 <symbols>
 <symbol name="ATMEGAXX8-32PIN_NOPAD">
@@ -1546,6 +1556,23 @@ regulations. &lt;/p&gt;
 <pin name="1" x="0" y="0" visible="off" length="point" rot="R180"/>
 <text x="-2.54" y="2.54" size="1.778" layer="95" font="vector">&gt;Name</text>
 <text x="-2.54" y="-2.54" size="1.778" layer="96" font="vector">&gt;Value</text>
+</symbol>
+<symbol name="CONN_04">
+<description>&lt;h3&gt;5 Pin Connection&lt;/h3&gt;</description>
+<wire x1="3.81" y1="-7.62" x2="-2.54" y2="-7.62" width="0.4064" layer="94"/>
+<wire x1="1.27" y1="0" x2="2.54" y2="0" width="0.6096" layer="94"/>
+<wire x1="1.27" y1="-2.54" x2="2.54" y2="-2.54" width="0.6096" layer="94"/>
+<wire x1="1.27" y1="-5.08" x2="2.54" y2="-5.08" width="0.6096" layer="94"/>
+<wire x1="-2.54" y1="5.08" x2="-2.54" y2="-7.62" width="0.4064" layer="94"/>
+<wire x1="3.81" y1="-7.62" x2="3.81" y2="5.08" width="0.4064" layer="94"/>
+<wire x1="1.27" y1="2.54" x2="2.54" y2="2.54" width="0.6096" layer="94"/>
+<pin name="1" x="7.62" y="-5.08" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<pin name="2" x="7.62" y="-2.54" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<pin name="3" x="7.62" y="0" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<pin name="4" x="7.62" y="2.54" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
+<text x="-2.54" y="-9.906" size="1.778" layer="96" font="vector">&gt;VALUE</text>
+<text x="-2.54" y="8.128" size="1.778" layer="95" font="vector">&gt;NAME</text>
+<wire x1="-2.54" y1="5.08" x2="3.81" y2="5.08" width="0.254" layer="94"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -2053,6 +2080,24 @@ Adapted from SparkFun Libraries</description>
 </device>
 </devices>
 </deviceset>
+<deviceset name="MEM_MODULE">
+<gates>
+<gate name="G$1" symbol="CONN_04" x="2.54" y="7.62"/>
+</gates>
+<devices>
+<device name="" package="MEM-HEADERS">
+<connects>
+<connect gate="G$1" pin="1" pad="P$4"/>
+<connect gate="G$1" pin="2" pad="P$3"/>
+<connect gate="G$1" pin="3" pad="P$2"/>
+<connect gate="G$1" pin="4" pad="P$1"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
 </devicesets>
 </library>
 </libraries>
@@ -2113,6 +2158,9 @@ Adapted from SparkFun Libraries</description>
 <part name="R9" library="femtosat" deviceset="RESISTOR_10KOHM" device="0603" value="10K"/>
 <part name="R10" library="femtosat" deviceset="RESISTOR_10KOHM" device="0603" value="10K"/>
 <part name="R11" library="femtosat" deviceset="RESISTOR_4.7KOHM" device="-0603-1/10W-1%" value="4.7k"/>
+<part name="U$1" library="femtosat" deviceset="MEM_MODULE" device=""/>
+<part name="P+7" library="femtosat" deviceset="3.3V" device=""/>
+<part name="GND11" library="femtosat" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -2295,6 +2343,16 @@ Adapted from SparkFun Libraries</description>
 <attribute name="NAME" x="50.8" y="110.744" size="1.778" layer="95" font="vector" align="bottom-center"/>
 <attribute name="VALUE" x="50.8" y="107.696" size="1.778" layer="96" font="vector" align="top-center"/>
 </instance>
+<instance part="U$1" gate="G$1" x="121.92" y="45.72" smashed="yes">
+<attribute name="VALUE" x="119.38" y="35.814" size="1.778" layer="96" font="vector"/>
+<attribute name="NAME" x="119.38" y="53.848" size="1.778" layer="95" font="vector"/>
+</instance>
+<instance part="P+7" gate="G$1" x="137.16" y="60.96" smashed="yes">
+<attribute name="VALUE" x="136.144" y="64.516" size="1.778" layer="96"/>
+</instance>
+<instance part="GND11" gate="1" x="137.16" y="27.94" smashed="yes">
+<attribute name="VALUE" x="134.62" y="25.4" size="1.778" layer="96"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -2435,6 +2493,12 @@ Adapted from SparkFun Libraries</description>
 <wire x1="17.78" y1="88.9" x2="20.32" y2="88.9" width="0.1524" layer="91"/>
 <junction x="20.32" y="88.9"/>
 </segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="1"/>
+<wire x1="129.54" y1="40.64" x2="137.16" y2="40.64" width="0.1524" layer="91"/>
+<wire x1="137.16" y1="40.64" x2="137.16" y2="30.48" width="0.1524" layer="91"/>
+<pinref part="GND11" gate="1" pin="GND"/>
+</segment>
 </net>
 <net name="N$5" class="0">
 <segment>
@@ -2549,6 +2613,12 @@ Adapted from SparkFun Libraries</description>
 <wire x1="177.8" y1="149.86" x2="177.8" y2="157.48" width="0.1524" layer="91"/>
 <junction x="177.8" y="149.86"/>
 <pinref part="P+6" gate="G$1" pin="3.3V"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="4"/>
+<wire x1="129.54" y1="48.26" x2="137.16" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="137.16" y1="48.26" x2="137.16" y2="60.96" width="0.1524" layer="91"/>
+<pinref part="P+7" gate="G$1" pin="3.3V"/>
 </segment>
 </net>
 <net name="INT" class="0">
@@ -2694,6 +2764,11 @@ Adapted from SparkFun Libraries</description>
 <wire x1="55.88" y1="101.6" x2="55.88" y2="99.06" width="0.1524" layer="91"/>
 <junction x="55.88" y="99.06"/>
 </segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="2"/>
+<wire x1="129.54" y1="43.18" x2="144.78" y2="43.18" width="0.1524" layer="91"/>
+<label x="149.86" y="40.64" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="SCL" class="0">
 <segment>
@@ -2730,6 +2805,11 @@ Adapted from SparkFun Libraries</description>
 <wire x1="63.5" y1="93.98" x2="55.88" y2="93.98" width="0.1524" layer="91"/>
 <wire x1="55.88" y1="93.98" x2="55.88" y2="96.52" width="0.1524" layer="91"/>
 <junction x="55.88" y="96.52"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="3"/>
+<wire x1="129.54" y1="45.72" x2="144.78" y2="45.72" width="0.1524" layer="91"/>
+<label x="149.86" y="48.26" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$18" class="0">
