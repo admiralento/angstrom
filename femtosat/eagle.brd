@@ -175,6 +175,8 @@
 <wire x1="8.89" y1="72.39" x2="12.7" y2="72.39" width="0.1524" layer="20"/>
 <wire x1="12.7" y1="72.39" x2="17.408025" y2="70.221975" width="0.1524" layer="20"/>
 <text x="5.842" y="64.897" size="1.778" layer="1" font="vector">Angstrom</text>
+<text x="19.431" y="51.562" size="1.016" layer="1" font="vector">SCL</text>
+<text x="19.304" y="49.149" size="1.016" layer="1" font="vector">SDA</text>
 </plain>
 <libraries>
 <library name="femtosat">
