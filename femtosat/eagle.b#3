@@ -52,8 +52,8 @@
 <layer number="42" name="bRestrict" color="1" fill="10" visible="yes" active="yes"/>
 <layer number="43" name="vRestrict" color="2" fill="10" visible="yes" active="yes"/>
 <layer number="44" name="Drills" color="7" fill="1" visible="no" active="yes"/>
-<layer number="45" name="Holes" color="7" fill="1" visible="no" active="yes"/>
-<layer number="46" name="Milling" color="3" fill="1" visible="no" active="yes"/>
+<layer number="45" name="Holes" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="yes" active="yes"/>
 <layer number="47" name="Measures" color="7" fill="1" visible="no" active="yes"/>
 <layer number="48" name="Document" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="49" name="Reference" color="7" fill="1" visible="yes" active="yes"/>
@@ -158,10 +158,23 @@
 </layers>
 <board>
 <plain>
-<wire x1="-1.27" y1="11.43" x2="-1.27" y2="64.77" width="0.1524" layer="20"/>
-<wire x1="-1.27" y1="64.77" x2="22.86" y2="64.77" width="0.1524" layer="20"/>
-<wire x1="22.86" y1="64.77" x2="22.86" y2="11.43" width="0.1524" layer="20"/>
-<wire x1="22.86" y1="11.43" x2="-1.27" y2="11.43" width="0.1524" layer="20"/>
+<wire x1="17.408025" y1="70.221975" x2="21.961971875" y2="64.398028125" width="0.1524" layer="20"/>
+<wire x1="21.961971875" y1="64.398028125" x2="22.86" y2="59.163946875" width="0.1524" layer="20"/>
+<wire x1="22.86" y1="59.163946875" x2="22.86" y2="19.57605" width="0.1524" layer="20"/>
+<wire x1="22.86" y1="19.57605" x2="20.691975" y2="14.341975" width="0.1524" layer="20"/>
+<wire x1="20.691975" y1="14.341975" x2="19.948028125" y2="13.598028125" width="0.1524" layer="20"/>
+<wire x1="19.948028125" y1="13.598028125" x2="14.713946875" y2="11.43" width="0.1524" layer="20"/>
+<wire x1="14.713946875" y1="11.43" x2="6.87605" y2="11.43" width="0.1524" layer="20"/>
+<wire x1="6.87605" y1="11.43" x2="1.641975" y2="13.598025" width="0.1524" layer="20"/>
+<wire x1="1.641975" y1="13.598025" x2="0.898028125" y2="14.341971875" width="0.1524" layer="20"/>
+<wire x1="0.898028125" y1="14.341971875" x2="-1.27" y2="19.576053125" width="0.1524" layer="20"/>
+<wire x1="-1.27" y1="19.576053125" x2="-1.27" y2="59.16395" width="0.1524" layer="20"/>
+<wire x1="-1.27" y1="59.16395" x2="-0.371975" y2="64.398025" width="0.1524" layer="20"/>
+<wire x1="-0.371975" y1="64.398025" x2="4.181975" y2="70.221975" width="0.1524" layer="20"/>
+<wire x1="4.181975" y1="70.221975" x2="8.89" y2="72.39" width="0.1524" layer="20"/>
+<wire x1="8.89" y1="72.39" x2="12.7" y2="72.39" width="0.1524" layer="20"/>
+<wire x1="12.7" y1="72.39" x2="17.408025" y2="70.221975" width="0.1524" layer="20"/>
+<text x="5.842" y="64.897" size="1.778" layer="1" font="vector">Angstrom</text>
 </plain>
 <libraries>
 <library name="femtosat">
@@ -1419,7 +1432,7 @@ Please make sure your boards conform to these design rules.</description>
 <element name="U2" library="femtosat" package="RFM69HCW-XXXS2" value="915MHz" x="10.16" y="24.13" smashed="yes" rot="R180">
 <attribute name="LINK" value="http://www.anarduino.com/details.jsp?pid=162" x="-21.59" y="34.29" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="NAME" x="10.16" y="15.875" size="0.6096" layer="25" font="vector" ratio="20" rot="R180" align="bottom-center"/>
-<attribute name="VALUE" x="10.16" y="32.43" size="0.6096" layer="27" font="vector" ratio="20" rot="R180" align="top-center"/>
+<attribute name="VALUE" x="10.16" y="31.16" size="0.6096" layer="27" font="vector" ratio="20" rot="R180" align="top-center"/>
 </element>
 <element name="U3" library="femtosat" package="SOT23-5" value="3.3V/150mA" x="7.62" y="58.42" smashed="yes" rot="R270">
 <attribute name="DIGIKEY" value="576-1259-1-ND " x="-43.18" y="20.32" size="1.778" layer="27" rot="R270" display="off"/>
@@ -1750,13 +1763,13 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="9.382" y1="53.3685" x2="9.382" y2="52.816" width="0.1524" layer="1"/>
 <wire x1="9.382" y1="52.816" x2="8.52794375" y2="51.96194375" width="0.1524" layer="1"/>
 <wire x1="3.2004" y1="23.1648" x2="2.7432" y2="23.1648" width="0.1524" layer="1"/>
-<wire x1="4.4196" y1="24.384" x2="3.2004" y2="23.1648" width="0.1524" layer="1"/>
-<wire x1="4.4196" y1="31.8516" x2="4.4196" y2="24.384" width="0.1524" layer="1"/>
-<wire x1="2.4384" y1="33.8328" x2="4.4196" y2="31.8516" width="0.1524" layer="1"/>
-<wire x1="0.762" y1="33.8328" x2="2.4384" y2="33.8328" width="0.1524" layer="1"/>
-<wire x1="0.4572" y1="34.1376" x2="0.762" y2="33.8328" width="0.1524" layer="1"/>
-<wire x1="0.4572" y1="39.3192" x2="0.4572" y2="34.1376" width="0.1524" layer="1"/>
-<wire x1="1.2192" y1="40.0812" x2="0.4572" y2="39.3192" width="0.1524" layer="1"/>
+<wire x1="5.0546" y1="25.019" x2="3.2004" y2="23.1648" width="0.1524" layer="1"/>
+<wire x1="5.0546" y1="32.2326" x2="5.0546" y2="25.019" width="0.1524" layer="1"/>
+<wire x1="3.7084" y1="33.5788" x2="5.0546" y2="32.2326" width="0.1524" layer="1"/>
+<wire x1="0.381" y1="33.5788" x2="3.7084" y2="33.5788" width="0.1524" layer="1"/>
+<wire x1="-0.1778" y1="34.1376" x2="0.381" y2="33.5788" width="0.1524" layer="1"/>
+<wire x1="-0.1778" y1="38.6842" x2="-0.1778" y2="34.1376" width="0.1524" layer="1"/>
+<wire x1="1.2192" y1="40.0812" x2="-0.1778" y2="38.6842" width="0.1524" layer="1"/>
 <wire x1="2.7432" y1="23.1648" x2="2.66" y2="23.13" width="0.1524" layer="1"/>
 <wire x1="1.2192" y1="40.0812" x2="1.27" y2="40.22" width="0.1524" layer="1"/>
 </signal>
