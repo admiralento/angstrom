@@ -166,9 +166,9 @@
 <wire x1="17.78" y1="71.755" x2="20.955" y2="67.945" width="0.254" layer="20"/>
 <wire x1="20.955" y1="67.945" x2="20.955" y2="12.7" width="0.254" layer="20"/>
 <hole x="10.541" y="68.58" drill="5.0038"/>
-<text x="0.635" y="38.1" size="1.27" layer="23">SCL</text>
-<text x="0.635" y="42.545" size="1.27" layer="23">SDA</text>
 <text x="5.08" y="63.754" size="1.778" layer="21" font="fixed">Angstrom</text>
+<text x="0.762" y="42.672" size="1.27" layer="21" font="fixed">SCL</text>
+<text x="0.635" y="38.1" size="1.27" layer="21" font="fixed">SDA</text>
 </plain>
 <libraries>
 <library name="femtosat">
@@ -1416,7 +1416,7 @@ Please make sure your boards conform to these design rules.</description>
 <attribute name="VALUE" x="13.335" y="61.722" size="0.6096" layer="27" font="vector" ratio="20" rot="R180" align="top-center"/>
 </element>
 <element name="TP1" library="femtosat" package="PAD.03X.03" value="TEST-POINT3" x="4.445" y="38.735" smashed="yes"/>
-<element name="TP2" library="femtosat" package="PAD.03X.03" value="TEST-POINT3" x="5.08" y="43.18" smashed="yes"/>
+<element name="TP2" library="femtosat" package="PAD.03X.03" value="TEST-POINT3" x="4.445" y="43.18" smashed="yes"/>
 <element name="U$1" library="femtosat" package="MEM-HEADERS" value="MEM_MODULE" x="14.478" y="46.736" smashed="yes" rot="R180"/>
 <element name="U1" library="femtosat" package="TQFP32-08" value="ATMEGA328P_TQFP" x="10.668" y="38.989" smashed="yes">
 <attribute name="DIGIKEY" value="ATMEGA328P-AURCT-ND " x="28.448" y="-2.921" size="1.778" layer="27" display="off"/>
@@ -1627,6 +1627,15 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="6.985" y1="50.165" x2="4.2672" y2="50.165" width="0.254" layer="1"/>
 <wire x1="8.925" y1="52.681" x2="8.89" y2="52.716" width="0.254" layer="1"/>
 <wire x1="8.89" y1="52.716" x2="8.89" y2="53.34" width="0.254" layer="1"/>
+<polygon width="0.1524" layer="1" isolate="0.254">
+<vertex x="0" y="15.875"/>
+<vertex x="0" y="67.945"/>
+<vertex x="3.175" y="71.755"/>
+<vertex x="17.78" y="71.755"/>
+<vertex x="20.955" y="67.945"/>
+<vertex x="20.955" y="12.7"/>
+<vertex x="3.175" y="12.7"/>
+</polygon>
 </signal>
 <signal name="N$5">
 <contactref element="U2" pad="9"/>
@@ -1890,14 +1899,13 @@ Please make sure your boards conform to these design rules.</description>
 <via x="14.6304" y="53.0352" extent="1-16" drill="0.3302"/>
 <via x="11.9888" y="42.0624" extent="1-16" drill="0.3302"/>
 <via x="4.064" y="46.1264" extent="1-16" drill="0.3302"/>
-<wire x1="3.39" y1="45.085" x2="5.08" y2="43.395" width="0.254" layer="1"/>
-<wire x1="5.08" y1="43.395" x2="5.08" y2="43.18" width="0.254" layer="1"/>
 <wire x1="10.525" y1="49.6285" x2="10.525" y2="49.165" width="0.254" layer="1"/>
 <wire x1="11.43" y1="48.26" x2="12.065" y2="48.26" width="0.254" layer="1"/>
 <via x="12.065" y="48.26" extent="1-16" drill="0.35"/>
 <wire x1="12.065" y1="48.26" x2="12.065" y2="48.895" width="0.254" layer="16"/>
 <wire x1="12.065" y1="48.895" x2="11.8872" y2="49.0728" width="0.254" layer="16"/>
 <wire x1="10.525" y1="49.165" x2="11.43" y2="48.26" width="0.254" layer="1"/>
+<wire x1="3.39" y1="45.085" x2="4.445" y2="43.18" width="0.254" layer="1"/>
 </signal>
 <signal name="SCL">
 <contactref element="U1" pad="28"/>
