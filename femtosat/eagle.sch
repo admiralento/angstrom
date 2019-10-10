@@ -2434,10 +2434,7 @@ JST-SMT variant is a surface mount battery connector for SparkFun batteries &lt;
 <pinref part="GND11" gate="1" pin="GND"/>
 </segment>
 <segment>
-<wire x1="50.8" y1="187.96" x2="50.8" y2="180.34" width="0.1524" layer="91"/>
 <wire x1="50.8" y1="180.34" x2="50.8" y2="175.26" width="0.1524" layer="91"/>
-<wire x1="48.26" y1="187.96" x2="50.8" y2="187.96" width="0.1524" layer="91"/>
-<pinref part="J2" gate="G$1" pin="1"/>
 <pinref part="C1" gate="G$1" pin="2"/>
 <pinref part="U3" gate="U1" pin="GND"/>
 <wire x1="60.96" y1="175.26" x2="60.96" y2="170.18" width="0.1524" layer="91"/>
@@ -2447,8 +2444,11 @@ JST-SMT variant is a surface mount battery connector for SparkFun batteries &lt;
 <wire x1="60.96" y1="170.18" x2="55.88" y2="170.18" width="0.1524" layer="91"/>
 <wire x1="55.88" y1="170.18" x2="55.88" y2="180.34" width="0.1524" layer="91"/>
 <wire x1="55.88" y1="180.34" x2="50.8" y2="180.34" width="0.1524" layer="91"/>
-<junction x="50.8" y="180.34"/>
 <pinref part="GND3" gate="1" pin="GND"/>
+<pinref part="J2" gate="G$1" pin="2"/>
+<wire x1="48.26" y1="185.42" x2="50.8" y2="185.42" width="0.1524" layer="91"/>
+<wire x1="50.8" y1="185.42" x2="50.8" y2="180.34" width="0.1524" layer="91"/>
+<junction x="50.8" y="180.34"/>
 </segment>
 </net>
 <net name="N$5" class="0">
@@ -2561,8 +2561,10 @@ JST-SMT variant is a surface mount battery connector for SparkFun batteries &lt;
 <junction x="60.96" y="185.42"/>
 <pinref part="U3" gate="U1" pin="EN"/>
 <wire x1="60.96" y1="180.34" x2="60.96" y2="185.42" width="0.1524" layer="91"/>
-<wire x1="48.26" y1="185.42" x2="60.96" y2="185.42" width="0.1524" layer="91"/>
-<pinref part="J2" gate="G$1" pin="2"/>
+<wire x1="60.96" y1="185.42" x2="53.34" y2="185.42" width="0.1524" layer="91"/>
+<wire x1="53.34" y1="185.42" x2="53.34" y2="187.96" width="0.1524" layer="91"/>
+<pinref part="J2" gate="G$1" pin="1"/>
+<wire x1="53.34" y1="187.96" x2="48.26" y2="187.96" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$7" class="0">
@@ -2721,7 +2723,6 @@ JST-SMT variant is a surface mount battery connector for SparkFun batteries &lt;
 </sheet>
 </sheets>
 <errors>
-<approved hash="108,1,50.8,175.26,GND,,,,,"/>
 <approved hash="113,1,139.596,107.846,FRAME1,,,,,"/>
 <approved hash="113,1,65.3627,134.91,J1,,,,,"/>
 <approved hash="113,1,45.0427,188.123,J2,,,,,"/>
