@@ -1,0 +1,24 @@
+{
+    "Header": {
+        "Comment": "All values are metric (mm)",
+        "CreationDate": "2019-10-10T17:33:50Z",
+        "GenerationSoftware": {
+            "Application": "EAGLE",
+            "Vendor": "Autodesk",
+            "Version": "9.5.0"
+        },
+        "Part": "Single"
+    },
+    "Overall": {
+        "BoardThickness": 1.5723,
+        "LayerNumber": 2,
+        "Name": {
+            "ProjectId": "eagle"
+        },
+        "Owner": "Ammon Wolfert <admiralento@gmail.com>",
+        "Size": {
+            "X": 20.955,
+            "Y": 59.055
+        }
+    }
+}

@@ -1,0 +1,20 @@
+Partlist exported from /Users/ammonwolfert/Documents/GitHub/angstrom/femtosat/eagle.sch at 10/10/19 11:33 AM
+
+Qty Value           Device                         Package               Parts    Description                                                DIGIKEY              LINK                                         VALUE          
+1                   CONNECTOR_2PIN-JST-2MM-SMT     JST-2-SMD             J2       2 pin connector                                            455-1749-1-ND                                                                    
+1                   CONNECTOR_6PINSILK_FEMALE_PTH  1X06                  J1       6 pin connection point.                                                                                                                     
+2   0.1uF           CAPACITOR_0.1UF                0603-CAP              C3, C5   CAP-00810                                                  311-1343-1-ND                                                     0.1uF          
+2   1.0uF           CAPACITOR_1.0UF-0603-16V-10%   0603                  C1, C2   1µF ceramic capacitors                                     399-3118-1-ND                                                     1.0uF          
+1   10K             RESISTOR_10KOHM0603            0603-RES              R2       10k Ohm Resistor                                           311-10KGRCT-ND                                                    10K            
+1   16MHz           RESONATOR_16MHZSMD_3.2X1.3     RESONATOR-SMD-3.2X1.3 Y1       16MHz Resonator                                            490-1198-1-ND                                                     16MHz          
+1   3.3V/150mA      VOLTAGE_REGULATOR_MIC52053.3V  SOT23-5               U3       V_REG MIC5205                                              576-1259-1-ND                                                     3.3V/150mA     
+2   330             RESISTOR_330OHM-0603-1/10W-1%  0603                  R1, R5   330 Ohm resistor                                           311-330GRCT-ND                                                    330            
+2   4.7k            RESISTOR_4.7KOHM-0603-1/10W-1% 0603                  R3, R4   4.7k Ohm resistor                                          311-4.7KGRCT-ND                                                   4.7k           
+1   915MHz          RADIO_RFM69HCW-915             RFM69HCW-XXXS2        U2       Hope RF RFM69H ISM Transceiver Module                                           http://www.anarduino.com/details.jsp?pid=162 915MHz         
+1   9DoF IMU        MPU9250                        QFN24-3X3             U4       MPU-9250 9 Degree of Freedom IMU                           1428-1019-1-ND                                                    9DoF IMU       
+1   ANTENNA_PAD     ANTENNA_PAD                    RFM12B-ANTENNA        ANT1     Pad for soldering on a wire antenna                                                                                                         
+1   ATMEGA328P_TQFP ATMEGA328P_TQFP                TQFP32-08             U1       ATMEGA 328P Microcontroller in QFP package                 ATMEGA328P-AURCT-ND                                               ATMEGA328P_TQFP
+1   BME280          BME280                         LGA-8-2.5X2.5         U5       Bosch BME280 &ndash; Combined Humidity and Pressure Sensor 828-1063-1-ND                                                     BME280         
+2   GREEN           LED_GREEN0603                  LED-0603              D1, D2   Green SMD LED                                              160-1183-1-ND                                                     GREEN          
+1   MEM_MODULE      MEM_MODULE                     MEM-HEADERS           U$1                                                                                                                                                  
+2   TEST-POINT3     TEST-POINT3                    PAD.03X.03            TP1, TP2 Test Points                                                                                                                                 
