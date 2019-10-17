@@ -18,7 +18,7 @@
 #include <SPI.h>
 #include <RFM69.h>
 #include <MPU9250.h>
-#include <SparkFunBME280.h>
+#include <BME280.h>
 
 
 // Create constants here
