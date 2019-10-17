@@ -18,24 +18,24 @@
 #include <SPI.h>
 #include <RFM69.h>
 #include <MPU9250.h>
-#include <BME280.h>
+#include <SparkFunBME280.h>
 
 
 // Create constants here
-const int ledPin = 13;
-
-unsigned long triggerTime = 0;
-unsigned long timeInterval = 500; //Milliseconds LED will be lit and unlit (Half a Period)
-
-bool ledState = LOW;
+const int misoPin = 7;
+const int mosiPin = 6;
+const int sckPin = 5;
+const int nssPin = 4;
+const int intPin = 3;
+const int sclPin = 13;
+const int sdaPin = 12;
 
 void setup() {
 
-
   //set the pinmode of all communication pins
   //begin serial communication (for debugbing with computer)
-
-  pinMode(ledPin,OUTPUT);  //Set the LED pin to be an output
+  RFM69 radio;
+  
   Serial.begin(9600);  //Initialize Serial Communication
   
 }
@@ -53,12 +53,5 @@ void loop() {
   //and write to memory module
 
   //Repeat
-
-  if (millis() - triggerTime >= timeInterval) {   //Check if enough has passed
-    ledState = !ledState;                         //Alternate State of Led
-    digitalWrite(ledPin, ledState);               //Write to Led
-    triggerTime = millis();                       //Reset Timer
-  }
-  
-
+ 
 }
