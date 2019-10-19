@@ -14,6 +14,13 @@
  *    There should be a RFM69 and MPU9250 Library in there
  */
 
+//Notes
+//IMU - b110100X(RW) - 0xD1
+
+//BMU - b111011X(RW) - 0xED
+//Registers 0xF6, 0xF7
+
+
 //include libraries
 #include <SPI.h>
 #include <RFM69.h>
@@ -27,6 +34,7 @@
 #define FREQUENCY     RF69_915MHZ
 
 RFM69 radio;
+MPU9250 IMU(Wire,0x68);
 
 // Create constants here
 #define MISOPIN      7
@@ -40,6 +48,7 @@ RFM69 radio;
 //Variables
 char sendBuffer[62];
 int bufferIndex = 0;
+int status;
 
 void setup() {
 
@@ -50,6 +59,19 @@ void setup() {
   radio.encrypt(0);
 
   Serial.begin(9600);  //Initialize Serial Communication
+
+  Serial.begin(115200);
+  while(!Serial) {}
+
+  // start communication with IMU
+  status = IMU.begin();
+  if (status < 0) {
+    Serial.println("IMU initialization unsuccessful");
+    Serial.println("Check IMU wiring or try cycling power");
+    Serial.print("Status: ");
+    Serial.println(status);
+    while(1) {}
+  }
 
 }
 
