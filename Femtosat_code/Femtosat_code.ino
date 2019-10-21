@@ -41,7 +41,7 @@ RFM69 radio;
 //#define MPU9250_ADDRESS MPU9250_ADDRESS_AD1
 
 MPU9250 myIMU(MPU9250_ADDRESS, I2Cport, I2Cclock);
-BME280 mySensorA; //Uses default I2C address 0x77
+//BME280 myBME; //Uses default I2C address 0x77
 
 
 // Create constants here
@@ -54,17 +54,16 @@ BME280 mySensorA; //Uses default I2C address 0x77
 #define SDAPIN       12
 
 //Variables
-char sendBuffer[62];
+float sendBuffer[62];
 int bufferIndex = 0;
-int status;
-char IMUData[9];
 
 void setup() {
 
   Wire.begin();
-
+  Serial.begin(38400);  //Initialize Serial Communication
+  
   //Wait for Serial connection
-  while(!Serial){};
+  //while(!Serial){};
 
   //Init radio communication
   radio.initialize(FREQUENCY, MYNODEID, NETWORKID);
@@ -72,9 +71,11 @@ void setup() {
   radio.setPowerLevel(20);
   radio.encrypt(0);
 
-  Serial.begin(38400);  //Initialize Serial Communication
-
   byte c = myIMU.readByte(MPU9250_ADDRESS, WHO_AM_I_MPU9250);
+  Serial.print("Attempting to read ");
+  Serial.print(MPU9250_ADDRESS, HEX);
+  Serial.print(" ");
+  Serial.println(WHO_AM_I_MPU9250, HEX);
   Serial.print(F("MPU9250 I AM 0x"));
   Serial.print(c, HEX);
   Serial.print(F(" I should be 0x"));
@@ -136,15 +137,15 @@ void setup() {
     abort();
   }
 
-  mySensorA.setI2CAddress(0x77);
+  //myBME.setI2CAddress(0x77);
 
-  if(mySensorA.beginI2C() == false) Serial.println("Sensor A connect failed");
+  //if(myBME.beginI2C() == false) Serial.println("Sensor A connect failed");
 
 
 }
 
 void loop() {
-
+  
   //Fetch Data from IMU
   myIMU.readAccelData(myIMU.accelCount);  // Read the x/y/z adc values
 
@@ -178,30 +179,43 @@ void loop() {
 
   float imuData[] = {myIMU.ax, myIMU.ay, myIMU.az, myIMU.gx,
      myIMU.gy, myIMU.gz, myIMU.mx, myIMU.my, myIMU.mz};
+     
   //Save to buffer
-  for (int i = 0; i < sizeof(imuData); i++){
+  for (int i = 0; i < 9; i++){
     sendBuffer[bufferIndex] = imuData[i];
     bufferIndex++;
   }
-
   //Fetch Data from Atmospheric Sensor
-  float BMEData[] = {mySensorA.readFloatHumidity(),mySensorA.readFloatPressure(),
-    mySensorA.readTempF()};
+  /*float BMEData[] = {myBME.readFloatHumidity(),myBME.readFloatPressure(),
+    myBME.readTempF()};
   for (int i = 0; i < sizeof(BMEData); i++){
     sendBuffer[bufferIndex] = BMEData[i];
     bufferIndex++;
-  }
-
+  }*/
+   
   //If enough data saved in buffer
   //Send data packet by radio
   //and write to memory module
-  if (bufferIndex == 61) {
-    radio.send(TONODEID, sendBuffer, bufferIndex);
+  if (bufferIndex >= 54) {
+    PrintBuffer(sendBuffer, bufferIndex);
+    Serial.println("Sending by Radio...");
+    radio.send(TONODEID, sendBuffer, min(bufferIndex,61), false);
     bufferIndex = 0;
+    Serial.println("Transmission complete!");
   }
 
   delay(100);
 
   //Repeat
 
+}
+
+void PrintBuffer(float sendbuf[], int index){
+  Serial.print("[");
+  for(int i = 0; i < index; i++){
+    Serial.print(sendbuf[i], HEX);
+    Serial.print(", ");
+  }
+  Serial.println("]");
+  return;
 }
