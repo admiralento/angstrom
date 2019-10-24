@@ -42,7 +42,7 @@
 //Define Objects
 RFM69 radio;
 MPU9250 myIMU(MPU9250_ADDRESS, I2Cport, I2Cclock);
-//BME280 myBME; //Uses default I2C address 0x77
+BME280 myBME; //Uses default I2C address 0x77
 
 //Variables
 float sendBuffer[62];
@@ -66,47 +66,13 @@ void setup() {
   doIMUSelfTest();
 
   //Init the BME
-  //myBME.setI2CAddress(0x77);
-  //if(myBME.beginI2C() == false) Serial.println("Sensor A connect failed");
+  myBME.setI2CAddress(0x77);
+  if(myBME.beginI2C() == false) Serial.println("Sensor A connect failed");
 
 
 }
 
 void loop() {
-  
-  //Fetch and put IMU data in buffer
-  float imuData[] = getIMUData();
-  for (int i = 0; i < 9; i++){
-    sendBuffer[bufferIndex] = imuData[i];
-    bufferIndex++;
-  }
-  
-  //Fetch and put BME data in buffer
-  /*float BMEData[] = {myBME.readFloatHumidity(),myBME.readFloatPressure(),
-    myBME.readTempF()};
-  for (int i = 0; i < sizeof(BMEData); i++){
-    sendBuffer[bufferIndex] = BMEData[i];
-    bufferIndex++;
-  }*/
-
-   
-  //If enough data saved in buffer
-  //Send data packet by radio
-  //and write to memory module
-  
-  if (bufferIndex >= 54) {
-    PrintBuffer(sendBuffer, bufferIndex);
-    Serial.println("Sending by Radio...");
-    radio.send(TONODEID, sendBuffer, min(bufferIndex,61), false);
-    bufferIndex = 0;
-    Serial.println("Transmission complete!");
-  }
-
-  delay(100);
-
-}
-
-float[] getIMUData(){
   
   //Fetch Data from IMU
   myIMU.readAccelData(myIMU.accelCount);  // Read the x/y/z adc values
@@ -138,8 +104,37 @@ float[] getIMUData(){
   myIMU.mz = (float)myIMU.magCount[2] * myIMU.mRes
              * myIMU.factoryMagCalibration[2] - myIMU.magBias[2];
 
-  return {myIMU.ax, myIMU.ay, myIMU.az, myIMU.gx,
+  float imuData[] = {myIMU.ax, myIMU.ay, myIMU.az, myIMU.gx,
      myIMU.gy, myIMU.gz, myIMU.mx, myIMU.my, myIMU.mz};
+     
+  for (int i = 0; i < 9; i++){
+    sendBuffer[bufferIndex] = imuData[i];
+    bufferIndex++;
+  }
+  
+  //Fetch and put BME data in buffer
+  float BMEData[] = {myBME.readFloatHumidity(),myBME.readFloatPressure(),
+    myBME.readTempF()};
+  for (int i = 0; i < sizeof(BMEData); i++){
+    sendBuffer[bufferIndex] = BMEData[i];
+    bufferIndex++;
+  }
+
+   
+  //If enough data saved in buffer
+  //Send data packet by radio
+  //and write to memory module
+  
+  if (bufferIndex >= 54) {
+    PrintBuffer(sendBuffer, bufferIndex);
+    Serial.println("Sending by Radio...");
+    radio.send(TONODEID, sendBuffer, min(bufferIndex,61), false);
+    bufferIndex = 0;
+    Serial.println("Transmission complete!");
+  }
+
+  delay(100);
+
 }
 
 void doIMUSelfTest(){
