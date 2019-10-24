@@ -29,8 +29,8 @@
 
 //Define Radio
 #define NETWORKID     0   // Must be the same for all nodes
-#define MYNODEID      1   // My node ID
-#define TONODEID      2   // Destination node ID
+#define MYNODEID      23   // My node ID
+#define TONODEID      255   // Destination node ID
 #define FREQUENCY     RF69_915MHZ
 
 //Define IMU
@@ -61,6 +61,7 @@ void setup() {
   radio.setHighPower();
   radio.setPowerLevel(20);
   radio.encrypt(0);
+  Serial.println();
 
   //Init the IMU
   doIMUSelfTest();
@@ -104,7 +105,7 @@ void loop() {
   myIMU.mz = (float)myIMU.magCount[2] * myIMU.mRes
              * myIMU.factoryMagCalibration[2] - myIMU.magBias[2];
 
-  float imuData[] = {myIMU.ax, myIMU.ay, myIMU.az, myIMU.gx,
+  char imuData[] = {myIMU.ax, myIMU.ay, myIMU.az, myIMU.gx,
      myIMU.gy, myIMU.gz, myIMU.mx, myIMU.my, myIMU.mz};
      
   for (int i = 0; i < 9; i++){
@@ -113,7 +114,7 @@ void loop() {
   }
   
   //Fetch and put BME data in buffer
-  float BMEData[] = {myBME.readFloatHumidity(),myBME.readFloatPressure(),
+  char BMEData[] = {myBME.readFloatHumidity(),myBME.readFloatPressure(),
     myBME.readTempF()};
   for (int i = 0; i < sizeof(BMEData); i++){
     sendBuffer[bufferIndex] = BMEData[i];
@@ -126,11 +127,12 @@ void loop() {
   //and write to memory module
   
   if (bufferIndex >= 54) {
-    PrintBuffer(sendBuffer, bufferIndex);
-    Serial.println("Sending by Radio...");
-    radio.send(TONODEID, sendBuffer, min(bufferIndex,61), false);
-    bufferIndex = 0;
-    Serial.println("Transmission complete!");
+      PrintBuffer(sendBuffer, bufferIndex);
+      Serial.println("Sending by Radio...");
+      radio.send(TONODEID, sendBuffer, min(bufferIndex,61), false);
+      bufferIndex = 0;
+      Serial.println("Transmission complete!");
+      Serial.println(");
   }
 
   delay(100);
