@@ -26,6 +26,7 @@
 #include <RFM69.h>
 #include <MPU9250.h>
 #include <SparkFunBME280.h>
+#include "FemtosatMem.h"
 
 //Define Radio
 #define NETWORKID     0   // Must be the same for all nodes
@@ -48,10 +49,14 @@ BME280 myBME; //Uses default I2C address 0x77
 float sendBuffer[62];
 int bufferIndex = 0;
 
+//#define DEBUGGING
+
 void setup() {
 
   Wire.begin();
+  #ifdef DEBUGGING
   Serial.begin(38400);  //Initialize Serial Communication
+  #endif
   
   //Wait for Serial connection
   while(!Serial){};
@@ -70,10 +75,21 @@ void setup() {
   myBME.setI2CAddress(0x77);
   if(myBME.beginI2C() == false) Serial.println("Sensor A connect failed");
 
-
+  //Init the Memory Module
+  char[] fileName = "flightdata.txt";
+  mem.begin(fileName, sizeof(fileName));
 }
 
 void loop() {
+
+  //Start of Data
+  sendBuffer[bufferIndex] = 1024;
+  bufferIndex++;
+
+  //Time Stamp
+  sendBuffer[bufferIndex] = (double)millis();
+  bufferIndex++;
+  Serial.println((double)millis());
   
   //Fetch Data from IMU
   myIMU.readAccelData(myIMU.accelCount);  // Read the x/y/z adc values
@@ -105,18 +121,18 @@ void loop() {
   myIMU.mz = (float)myIMU.magCount[2] * myIMU.mRes
              * myIMU.factoryMagCalibration[2] - myIMU.magBias[2];
 
-  char imuData[] = {myIMU.ax, myIMU.ay, myIMU.az, myIMU.gx,
+  float imuData[] = {myIMU.ax, myIMU.ay, myIMU.az, myIMU.gx,
      myIMU.gy, myIMU.gz, myIMU.mx, myIMU.my, myIMU.mz};
-     
+  
   for (int i = 0; i < 9; i++){
     sendBuffer[bufferIndex] = imuData[i];
     bufferIndex++;
   }
   
   //Fetch and put BME data in buffer
-  char BMEData[] = {myBME.readFloatHumidity(),myBME.readFloatPressure(),
+  float BMEData[] = {myBME.readFloatHumidity(),myBME.readFloatPressure(),
     myBME.readTempF()};
-  for (int i = 0; i < sizeof(BMEData); i++){
+  for (int i = 0; i < 3; i++){
     sendBuffer[bufferIndex] = BMEData[i];
     bufferIndex++;
   }
@@ -126,16 +142,14 @@ void loop() {
   //Send data packet by radio
   //and write to memory module
   
-  if (bufferIndex >= 54) {
+  if (bufferIndex >= 56) {
       PrintBuffer(sendBuffer, bufferIndex);
       Serial.println("Sending by Radio...");
       radio.send(TONODEID, sendBuffer, min(bufferIndex,61), false);
+      mem.Save(sendBuffer, min(bufferIndex,61));
       bufferIndex = 0;
       Serial.println("Transmission complete!");
-      Serial.println(");
   }
-
-  delay(100);
 
 }
 

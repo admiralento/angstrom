@@ -1,0 +1,26 @@
+Partlist exported from /Users/ammonwolfert/Documents/GitHub/angstrom/Board_Design/eagle.sch at 10/24/19 2:03 PM
+
+Part Value           Device                         Package               Description                                                DIGIKEY              LINK                                         VALUE          
+ANT1 ANTENNA_PAD     ANTENNA_PAD                    RFM12B-ANTENNA        Pad for soldering on a wire antenna                                                                                                         
+C1   1.0uF           CAPACITOR_1.0UF-0603-16V-10%   0603                  1µF ceramic capacitors                                     399-3118-1-ND                                                     1.0uF          
+C2   1.0uF           CAPACITOR_1.0UF-0603-16V-10%   0603                  1µF ceramic capacitors                                     399-3118-1-ND                                                     1.0uF          
+C3   0.1uF           CAPACITOR_0.1UF                0603-CAP              CAP-00810                                                  311-1343-1-ND                                                     0.1uF          
+C5   0.1uF           CAPACITOR_0.1UF                0603-CAP              CAP-00810                                                  311-1343-1-ND                                                     0.1uF          
+D1   GREEN           LED_GREEN0603                  LED-0603              Green SMD LED                                              160-1183-1-ND                                                     GREEN          
+D2   GREEN           LED_GREEN0603                  LED-0603              Green SMD LED                                              160-1183-1-ND                                                     GREEN          
+J1                   CONNECTOR_6PINSILK_FEMALE_PTH  1X06                  6 pin connection point.                                                                                                                     
+J2                   CONNECTOR_2PIN-JST-2MM-SMT     JST-2-SMD             2 pin connector                                            455-1749-1-ND                                                                    
+R1   330             RESISTOR_330OHM-0603-1/10W-1%  0603                  330 Ohm resistor                                           311-330GRCT-ND                                                    330            
+R2   10K             RESISTOR_10KOHM0603            0603-RES              10k Ohm Resistor                                           311-10KGRCT-ND                                                    10K            
+R3   4.7k            RESISTOR_4.7KOHM-0603-1/10W-1% 0603                  4.7k Ohm resistor                                          311-4.7KGRCT-ND                                                   4.7k           
+R4   4.7k            RESISTOR_4.7KOHM-0603-1/10W-1% 0603                  4.7k Ohm resistor                                          311-4.7KGRCT-ND                                                   4.7k           
+R5   330             RESISTOR_330OHM-0603-1/10W-1%  0603                  330 Ohm resistor                                           311-330GRCT-ND                                                    330            
+TP1  TEST-POINT3     TEST-POINT3                    PAD.03X.03            Test Points                                                                                                                                 
+TP2  TEST-POINT3     TEST-POINT3                    PAD.03X.03            Test Points                                                                                                                                 
+U$1  MEM_MODULE      MEM_MODULE                     MEM-HEADERS                                                                                                                                                       
+U1   ATMEGA328P_TQFP ATMEGA328P_TQFP                TQFP32-08             ATMEGA 328P Microcontroller in QFP package                 ATMEGA328P-AURCT-ND                                               ATMEGA328P_TQFP
+U2   915MHz          RADIO_RFM69HCW-915             RFM69HCW-XXXS2        Hope RF RFM69H ISM Transceiver Module                                           http://www.anarduino.com/details.jsp?pid=162 915MHz         
+U3   3.3V/150mA      VOLTAGE_REGULATOR_MIC52053.3V  SOT23-5               V_REG MIC5205                                              576-1259-1-ND                                                     3.3V/150mA     
+U4   9DoF IMU        MPU9250                        QFN24-3X3             MPU-9250 9 Degree of Freedom IMU                           1428-1019-1-ND                                                    9DoF IMU       
+U5   BME280          BME280                         LGA-8-2.5X2.5         Bosch BME280 &ndash; Combined Humidity and Pressure Sensor 828-1063-1-ND                                                     BME280         
+Y1   16MHz           RESONATOR_16MHZSMD_3.2X1.3     RESONATOR-SMD-3.2X1.3 16MHz Resonator                                            490-1198-1-ND                                                     16MHz          
