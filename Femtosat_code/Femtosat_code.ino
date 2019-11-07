@@ -44,6 +44,7 @@
 RFM69 radio;
 MPU9250 myIMU(MPU9250_ADDRESS, I2Cport, I2Cclock);
 BME280 myBME; //Uses default I2C address 0x77
+FemtosatMem mem;
 
 //Variables
 float sendBuffer[62];
@@ -76,7 +77,7 @@ void setup() {
   if(myBME.beginI2C() == false) Serial.println("Sensor A connect failed");
 
   //Init the Memory Module
-  char[] fileName = "flightdata.txt";
+  char fileName[] = "flightdata.txt";
   mem.begin(fileName, sizeof(fileName));
 }
 
