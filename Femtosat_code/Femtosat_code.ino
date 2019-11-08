@@ -49,6 +49,8 @@ FemtosatMem mem;
 //Variables
 float sendBuffer[62];
 int bufferIndex = 0;
+#define MAGIC_NUMBER  1024
+#define BUFFER_FULL   55   
 
 //#define DEBUGGING
 
@@ -60,38 +62,36 @@ void setup() {
   #endif
   
   //Wait for Serial connection
+  #ifdef DEBUGGING
   while(!Serial){};
+  #endif
 
   //Init radio communication
   radio.initialize(FREQUENCY, MYNODEID, NETWORKID);
   radio.setHighPower();
   radio.setPowerLevel(20);
   radio.encrypt(0);
-  Serial.println();
 
   //Init the IMU
+  #ifdef DEBUGGING
   doIMUSelfTest();
+  #else
+  myIMU.initMPU9250();
+  myIMU.calibrateMPU9250(myIMU.gyroBias, myIMU.accelBias);
+  #endif
 
   //Init the BME
   myBME.setI2CAddress(0x77);
-  if(myBME.beginI2C() == false) Serial.println("Sensor A connect failed");
+  #ifdef DEBUGGING
+  if(myBME.beginI2C() == false) Serial.println("BME connection failed.");
+  #endif
 
   //Init the Memory Module
   char fileName[] = "flightdata.txt";
   mem.begin(fileName, sizeof(fileName));
 }
 
-void loop() {
-
-  //Start of Data
-  sendBuffer[bufferIndex] = 1024;
-  bufferIndex++;
-
-  //Time Stamp
-  sendBuffer[bufferIndex] = (double)millis();
-  bufferIndex++;
-  Serial.println((double)millis());
-  
+void collectDataIMU() {
   //Fetch Data from IMU
   myIMU.readAccelData(myIMU.accelCount);  // Read the x/y/z adc values
 
@@ -111,52 +111,81 @@ void loop() {
 
   myIMU.readMagData(myIMU.magCount);  // Read the x/y/z adc values
 
+  //DISABLED - NON FUNCTIONAL
   // Calculate the magnetometer values in milliGauss
   // Include factory calibration per data sheet and user environmental
   // corrections
   // Get actual magnetometer value, this depends on scale being set
+  /*
   myIMU.mx = (float)myIMU.magCount[0] * myIMU.mRes
              * myIMU.factoryMagCalibration[0] - myIMU.magBias[0];
   myIMU.my = (float)myIMU.magCount[1] * myIMU.mRes
              * myIMU.factoryMagCalibration[1] - myIMU.magBias[1];
   myIMU.mz = (float)myIMU.magCount[2] * myIMU.mRes
              * myIMU.factoryMagCalibration[2] - myIMU.magBias[2];
+             * 
+              */
+}
 
-  float imuData[] = {myIMU.ax, myIMU.ay, myIMU.az, myIMU.gx,
-     myIMU.gy, myIMU.gz, myIMU.mx, myIMU.my, myIMU.mz};
-  
-  for (int i = 0; i < 9; i++){
+void loop() {
+
+  //Start of Data
+  sendBuffer[bufferIndex] = MAGIC_NUMBER;
+  bufferIndex++;
+
+  //Time Stamp
+  sendBuffer[bufferIndex] = (float)millis();
+  bufferIndex++;
+
+  #ifdef DEBUGGING
+  Serial.println((float)millis());
+  #endif
+
+  //Fetch and put IMU data in buffer
+  collectDataIMU();
+  float imuData[6] = {myIMU.ax, myIMU.ay, myIMU.az, myIMU.gx,
+     myIMU.gy, myIMU.gz};
+  for (int i = 0; i < sizeof(imuData); i++){
     sendBuffer[bufferIndex] = imuData[i];
     bufferIndex++;
   }
   
   //Fetch and put BME data in buffer
-  float BMEData[] = {myBME.readFloatHumidity(),myBME.readFloatPressure(),
+  float bmeData[3] = {myBME.readFloatHumidity(),myBME.readFloatPressure(),
     myBME.readTempF()};
-  for (int i = 0; i < 3; i++){
-    sendBuffer[bufferIndex] = BMEData[i];
+  for (int i = 0; i < sizeof(bmeData); i++){
+    sendBuffer[bufferIndex] = bmeData[i];
     bufferIndex++;
   }
 
-   
-  //If enough data saved in buffer
-  //Send data packet by radio
-  //and write to memory module
-  
-  if (bufferIndex >= 56) {
+  if (bufferIndex >= BUFFER_FULL) {
+    
+      #ifdef DEBUGGING
       PrintBuffer(sendBuffer, bufferIndex);
       Serial.println("Sending by Radio...");
+      #endif
+      
       radio.send(TONODEID, sendBuffer, min(bufferIndex,61), false);
       mem.Save(sendBuffer, min(bufferIndex,61));
       bufferIndex = 0;
+      
+      #ifdef DEBUGGING
       Serial.println("Transmission complete!");
+      #endif
   }
 
+}
+
+void collectDataBME() {
+  float bmeData[3] = {myBME.readFloatHumidity(),myBME.readFloatPressure(),
+    myBME.readTempF()};
+  return bmeData;
 }
 
 void doIMUSelfTest(){
   //Makes sure the IMU is connected and calibrates it
   byte c = myIMU.readByte(MPU9250_ADDRESS, WHO_AM_I_MPU9250);
+  
   Serial.print("Attempting to read ");
   Serial.print(MPU9250_ADDRESS, HEX);
   Serial.print(" ");
