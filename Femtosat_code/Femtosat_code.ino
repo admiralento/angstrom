@@ -52,7 +52,7 @@ int bufferIndex = 0;
 #define MAGIC_NUMBER  1024
 #define BUFFER_FULL   55   
 
-//#define DEBUGGING
+#define DEBUGGING
 
 void setup() {
 
@@ -81,9 +81,13 @@ void setup() {
   #endif
 
   //Init the BME
-  myBME.setI2CAddress(0x77);
+  myBME.setI2CAddress(0x76);
   #ifdef DEBUGGING
-  if(myBME.beginI2C() == false) Serial.println("BME connection failed.");
+  if(myBME.beginI2C() == false) {
+    Serial.println("BME connection failed.");
+  } else {
+    Serial.println("BME connection suceeded.");
+  }
   #endif
 
   //Init the Memory Module
@@ -145,7 +149,7 @@ void loop() {
   collectDataIMU();
   float imuData[6] = {myIMU.ax, myIMU.ay, myIMU.az, myIMU.gx,
      myIMU.gy, myIMU.gz};
-  for (int i = 0; i < sizeof(imuData); i++){
+  for (int i = 0; i < 6; i++){
     sendBuffer[bufferIndex] = imuData[i];
     bufferIndex++;
   }
@@ -153,7 +157,7 @@ void loop() {
   //Fetch and put BME data in buffer
   float bmeData[3] = {myBME.readFloatHumidity(),myBME.readFloatPressure(),
     myBME.readTempF()};
-  for (int i = 0; i < sizeof(bmeData); i++){
+  for (int i = 0; i < 3; i++){
     sendBuffer[bufferIndex] = bmeData[i];
     bufferIndex++;
   }
