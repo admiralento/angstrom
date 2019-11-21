@@ -14,12 +14,11 @@
  *    There should be a RFM69 and MPU9250 Library in there
  */
 
-//Notes
-//IMU - b110100X(RW) - 0xD1
-
-//BMU - b111011X(RW) - 0xED
-//Registers 0xF6, 0xF7
-
+///////////////
+//
+#define DEBUGGING       //Define if debugging, if not defined complier will ignore debugging code
+//
+//////////////
 
 //include libraries
 #include <SPI.h>
@@ -30,58 +29,68 @@
 
 //Define Radio
 #define NETWORKID     0   // Must be the same for all nodes
-#define MYNODEID      23   // My node ID
-#define TONODEID      255   // Destination node ID
+#define MYNODEID      1   // My node ID
+#define TONODEID      2   // Destination node ID
 #define FREQUENCY     RF69_915MHZ
 
 //Define IMU
 #define I2Cclock 400000
 #define I2Cport Wire
-#define MPU9250_ADDRESS MPU9250_ADDRESS_AD0   // Use either this line or the next to select which I2C address your device is using
-//#define MPU9250_ADDRESS MPU9250_ADDRESS_AD1
+#define MPU9250_ADDRESS MPU9250_ADDRESS_AD0
+
+//Define Mem
+#define WAIT_TIME 3 
 
 //Define Objects
 RFM69 radio;
 MPU9250 myIMU(MPU9250_ADDRESS, I2Cport, I2Cclock);
-BME280 myBME; //Uses default I2C address 0x77
+BME280 myBME;
 FemtosatMem mem;
 
-//Variables
-float sendBuffer[62];
-int bufferIndex = 0;
-#define MAGIC_NUMBER  1024
-#define BUFFER_FULL   55   
+//Memory File
+char fileName[] = "flightdata.txt";
 
-#define DEBUGGING
+//Variables
+#define MAX_PACKET_SIZE   62
+#define DATA_POINTS       10
+
+uint8_t start_word[] = "begin";
+uint8_t end_word[] = "end";
+uint8_t sendBuffer[MAX_PACKET_SIZE];
+float data[DATA_POINTS];
+
+int sendLength = 0;
+int dataIndex = 0;
+
+//Functions
+void collectDataIMU();
+void copyInto(uint8_t list[], uint8_t thing[], int START, int SIZE);
+
+#ifdef DEBUGGING
+void doIMUSelfTest();
+#endif
 
 void setup() {
 
-  Wire.begin();
-  #ifdef DEBUGGING
-  Serial.begin(38400);  //Initialize Serial Communication
-  #endif
+  Wire.begin();                                               //Init IC2 Communication
   
-  //Wait for Serial connection
   #ifdef DEBUGGING
-  while(!Serial){};
+  Serial.begin(9600);                                         //Initialize Serial Communication
+  while(!Serial){};                                           //Wait for Connection
   #endif
 
-  //Init radio communication
-  radio.initialize(FREQUENCY, MYNODEID, NETWORKID);
+  radio.initialize(FREQUENCY, MYNODEID, NETWORKID);           //Init radio communication
   radio.setHighPower();
-  radio.setPowerLevel(20);
   radio.encrypt(0);
 
-  //Init the IMU
-  #ifdef DEBUGGING
+  #ifdef DEBUGGING                                            //Init the IMU
   doIMUSelfTest();
   #else
   myIMU.initMPU9250();
   myIMU.calibrateMPU9250(myIMU.gyroBias, myIMU.accelBias);
   #endif
 
-  //Init the BME
-  myBME.setI2CAddress(0x76);
+  myBME.setI2CAddress(0x76);                                  //Init the BME
   #ifdef DEBUGGING
   if(myBME.beginI2C() == false) {
     Serial.println("BME connection failed.");
@@ -89,10 +98,76 @@ void setup() {
     Serial.println("BME connection suceeded.");
   }
   #endif
+  
+  mem.begin(fileName, sizeof(fileName));                      //Init the Memory Module
+}
 
-  //Init the Memory Module
-  char fileName[] = "flightdata.txt";
-  mem.begin(fileName, sizeof(fileName));
+void loop() {
+
+  collectDataIMU();                                                                 //Collect all data from sensors
+  data[0] = (float)millis();                                                        //Float 0 - - - - - TIME IN MILLISECONDS
+  data[1] = myIMU.ax;                                                               //Float 1 - - - - - X-ACCELERATION
+  data[2] = myIMU.ay;                                                               //Float 2 - - - - - Y-ACCELERATION
+  data[3] = myIMU.az;                                                               //Float 3 - - - - - Z-ACCELERATION
+  data[4] = myIMU.gx;                                                               //Float 4 - - - - - X-ROTATION
+  data[5] = myIMU.gy;                                                               //Float 5 - - - - - Y-ROTATION
+  data[6] = myIMU.gz;                                                               //Float 6 - - - - - Z-ROTATION
+  data[7] = myBME.readFloatHumidity();                                              //Float 7 - - - - - HUMIDITY
+  data[8] = myBME.readFloatPressure();                                              //Float 8 - - - - - PRESSURE
+  data[9] = myBME.readTempF();                                                      //Float 9 - - - - - TEMPERATURE
+
+  dataIndex = 0;
+
+  copyInto(sendBuffer, start_word, sendLength, sizeof(start_word) - 1);         //Write a start transmission marker
+  sendLength += sizeof(start_word) - 1;
+  
+  for (int i = 0; i < DATA_POINTS; i++) {
+      uint8_t* bytes;
+      bytes = (uint8_t*)(&data[dataIndex]);
+      copyInto(sendBuffer, bytes, sendLength, 4);                                 //Write float data, 4 bytes a piece
+      sendLength += 4;
+      dataIndex++;
+  }
+  
+  copyInto(sendBuffer, end_word, sendLength, sizeof(end_word) - 1);               //Write a end transmission marker
+  sendLength += sizeof(end_word) - 1;
+
+  #ifdef DEBUGGING
+  Serial.print("Radio Transmission: [");
+  for (int i = 0; i < sendLength; i++) {
+      Serial.print(sendBuffer[i], HEX);
+      if (i != sendLength - 1) {
+          Serial.print(", ");
+      } else {
+          Serial.println("]");
+      }
+  }
+  Serial.print("Data Recieved: [");
+  for (int i = 0; i < DATA_POINTS; i++) {
+      float* newDataPoint;
+      newDataPoint = (float*)&sendBuffer[sizeof(start_word) - 1 + i*4];
+      Serial.print(newDataPoint[0]);
+      if (i != DATA_POINTS - 1) {
+          Serial.print(", ");
+      } else {
+          Serial.println("]");
+      }
+  }
+  #endif
+
+  radio.send(TONODEID, sendBuffer, sendLength, false);                              //Send radio packet
+
+  while(!mem.Ready()) { delay(WAIT_TIME); }                                         //Wait till memory module is ready
+  mem.Save(sendBuffer, sendLegnth);                                                 //Save to memory module
+
+  sendLength = 0;
+
+}
+
+void copyInto(uint8_t list[], uint8_t thing[], int START, int SIZE) {
+    for (int i = 0; i < SIZE; i++) {
+        list[i + START] = thing[i];
+    }
 }
 
 void collectDataIMU() {
@@ -112,80 +187,10 @@ void collectDataIMU() {
   myIMU.gx = (float)myIMU.gyroCount[0] * myIMU.gRes;
   myIMU.gy = (float)myIMU.gyroCount[1] * myIMU.gRes;
   myIMU.gz = (float)myIMU.gyroCount[2] * myIMU.gRes;
-
-  myIMU.readMagData(myIMU.magCount);  // Read the x/y/z adc values
-
-  //DISABLED - NON FUNCTIONAL
-  // Calculate the magnetometer values in milliGauss
-  // Include factory calibration per data sheet and user environmental
-  // corrections
-  // Get actual magnetometer value, this depends on scale being set
-  /*
-  myIMU.mx = (float)myIMU.magCount[0] * myIMU.mRes
-             * myIMU.factoryMagCalibration[0] - myIMU.magBias[0];
-  myIMU.my = (float)myIMU.magCount[1] * myIMU.mRes
-             * myIMU.factoryMagCalibration[1] - myIMU.magBias[1];
-  myIMU.mz = (float)myIMU.magCount[2] * myIMU.mRes
-             * myIMU.factoryMagCalibration[2] - myIMU.magBias[2];
-             * 
-              */
-}
-
-void loop() {
-
-  //Start of Data
-  sendBuffer[bufferIndex] = MAGIC_NUMBER;
-  bufferIndex++;
-
-  //Time Stamp
-  sendBuffer[bufferIndex] = (float)millis();
-  bufferIndex++;
-
-  #ifdef DEBUGGING
-  Serial.println((float)millis());
-  #endif
-
-  //Fetch and put IMU data in buffer
-  collectDataIMU();
-  float imuData[6] = {myIMU.ax, myIMU.ay, myIMU.az, myIMU.gx,
-     myIMU.gy, myIMU.gz};
-  for (int i = 0; i < 6; i++){
-    sendBuffer[bufferIndex] = imuData[i];
-    bufferIndex++;
-  }
   
-  //Fetch and put BME data in buffer
-  float bmeData[3] = {myBME.readFloatHumidity(),myBME.readFloatPressure(),
-    myBME.readTempF()};
-  for (int i = 0; i < 3; i++){
-    sendBuffer[bufferIndex] = bmeData[i];
-    bufferIndex++;
-  }
-
-  if (bufferIndex >= BUFFER_FULL) {
-    
-      #ifdef DEBUGGING
-      PrintBuffer(sendBuffer, bufferIndex);
-      Serial.println("Sending by Radio...");
-      #endif
-      
-      radio.send(TONODEID, sendBuffer, min(bufferIndex,61), false);
-      mem.Save(sendBuffer, min(bufferIndex,61));
-      bufferIndex = 0;
-      
-      #ifdef DEBUGGING
-      Serial.println("Transmission complete!");
-      #endif
-  }
-
 }
 
-void collectDataBME() {
-  float bmeData[3] = {myBME.readFloatHumidity(),myBME.readFloatPressure(),
-    myBME.readTempF()};
-  return bmeData;
-}
-
+#ifdef DEBUGGING
 void doIMUSelfTest(){
   //Makes sure the IMU is connected and calibrates it
   byte c = myIMU.readByte(MPU9250_ADDRESS, WHO_AM_I_MPU9250);
@@ -255,13 +260,4 @@ void doIMUSelfTest(){
     abort();
   }
 }
-
-void PrintBuffer(float sendbuf[], int index){
-  Serial.print("[");
-  for(int i = 0; i < index; i++){
-    Serial.print(sendbuf[i], HEX);
-    Serial.print(", ");
-  }
-  Serial.println("]");
-  return;
-}
+#endif
