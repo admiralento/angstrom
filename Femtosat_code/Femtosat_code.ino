@@ -16,7 +16,7 @@
 
 ///////////////
 //
-#define DEBUGGING       //Define if debugging, if not defined complier will ignore debugging code
+//#define DEBUGGING       //Define if debugging, if not defined complier will ignore debugging code
 //
 //////////////
 
@@ -118,7 +118,7 @@ void loop() {
 
   dataIndex = 0;
 
-  copyInto(sendBuffer, start_word, sendLength, sizeof(start_word) - 1);         //Write a start transmission marker
+  copyInto(sendBuffer, start_word, sendLength, sizeof(start_word) - 1);           //Write a start transmission marker
   sendLength += sizeof(start_word) - 1;
   
   for (int i = 0; i < DATA_POINTS; i++) {
@@ -158,7 +158,7 @@ void loop() {
   radio.send(TONODEID, sendBuffer, sendLength, false);                              //Send radio packet
 
   while(!mem.Ready()) { delay(WAIT_TIME); }                                         //Wait till memory module is ready
-  mem.Save(sendBuffer, sendLegnth);                                                 //Save to memory module
+  mem.Save(sendBuffer, sendLength);                                                 //Save to memory module
 
   sendLength = 0;
 
