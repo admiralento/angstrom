@@ -48,11 +48,14 @@ BME280 myBME;
 FemtosatMem mem;
 
 //Memory File
-char fileName[] = "flightdata.txt";
+char fileName[] = "ang.txt";
 
 //Variables
 #define MAX_PACKET_SIZE   62
 #define DATA_POINTS       10
+
+#define LED             3
+#define BLINK_INTERVAL  100
 
 uint8_t start_word[] = "begin";
 uint8_t end_word[] = "end";
@@ -65,6 +68,7 @@ int dataIndex = 0;
 //Functions
 void collectDataIMU();
 void copyInto(uint8_t list[], uint8_t thing[], int START, int SIZE);
+void Blink();
 
 #ifdef DEBUGGING
 void doIMUSelfTest();
@@ -158,8 +162,12 @@ void loop() {
   radio.send(TONODEID, sendBuffer, sendLength, false);                              //Send radio packet
 
   while(!mem.Ready()) { delay(WAIT_TIME); }                                         //Wait till memory module is ready
-  mem.Save(sendBuffer, sendLength);                                                 //Save to memory module
+  mem.Save(sendBuffer, 24);                                                 //Save to memory module
+  while(!mem.Ready()) { delay(WAIT_TIME); }                                         //Wait till memory module is ready
+  mem.Save(sendBuffer + 24, 24);                                                 //Save to memory module
 
+  Blink();
+  
   sendLength = 0;
 
 }
@@ -261,3 +269,10 @@ void doIMUSelfTest(){
   }
 }
 #endif
+
+void Blink() {
+  digitalWrite(LED, HIGH);
+  delay(BLINK_INTERVAL);
+  digitalWrite(LED, LOW);
+  delay(BLINK_INTERVAL);
+}

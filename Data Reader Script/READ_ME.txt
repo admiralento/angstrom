@@ -1,0 +1,1 @@
+Execute the program from the command line. On a mac, navigate to a folder containing this program and the target data file and then use ./femto2csv.app. The process should be similar on a windows machine.
